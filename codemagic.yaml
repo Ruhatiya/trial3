@@ -1,1 +1,32 @@
+# Specify Flutter version
+flutter:
+  - stable
 
+# Define build workflow  
+workflows:
+  android_build:
+    name: Android Build
+    environment:
+      vars:
+        APP_NAME: "my_app" 
+    scripts:
+      - flutter pub get
+      - flutter test
+      - flutter build apk --release
+    artifacts:
+      - build/app/outputs/apk/release/*.apk 
+      
+# Define publishing (optional)  
+publishing:
+
+  email:
+    recipients:
+      - user@example.com
+
+  # Generate build link   
+  links:
+    - general: https://api.codemagic.io/builds/{{build_id}}/artifacts/download/app-release.apk
+
+# Specify build triggers  
+trigger:
+  - push
